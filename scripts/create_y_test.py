@@ -16,4 +16,4 @@ X = data.drop('output', axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Save y_test to a pickle file
-pd.to_pickle(y_test, 'data/y_test.pkl')
+pd.to_pickle(y_test, '../models/y_test.pkl')

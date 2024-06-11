@@ -37,9 +37,9 @@ preprocessor = ColumnTransformer(transformers=[
 X_preprocessed = preprocessor.fit_transform(X)
 
 # Ensure the 'data' directory exists
-os.makedirs('data', exist_ok=True)
+os.makedirs('models', exist_ok=True)
 
 # Save preprocessed data to file
-pd.to_pickle(X_preprocessed, 'data/X_preprocessed.pkl')
+pd.to_pickle(X_preprocessed, '../models/X_preprocessed.pkl')
 
 print("Data preprocessing completed.")

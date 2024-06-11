@@ -10,7 +10,7 @@ data = pd.read_csv('../data/heart.csv')
 y = data['output']
 
 # Load X_selected from the saved file
-X_selected = pd.read_pickle('data/X_selected.pkl')
+X_selected = pd.read_pickle('../models/X_selected.pkl')
 
 # Split data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(
@@ -37,6 +37,6 @@ grid_search.fit(X_train, y_train)
 best_model = grid_search.best_estimator_
 
 # Save the best model to a file
-joblib.dump(best_model, 'best_model.pkl')
+joblib.dump(best_model, '../models/best_model.pkl')
 
 print("Best model saved successfully.")
