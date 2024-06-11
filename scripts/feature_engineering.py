@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, f_classif
-
+import joblib
 
 # Load preprocessed data from file
 X_preprocessed = pd.read_pickle('../models/X_preprocessed.pkl')
@@ -18,5 +18,4 @@ X_selected = selector.fit_transform(X_preprocessed, y)
 # Save X_selected to a file
 pd.to_pickle(X_selected, '../models/X_selected.pkl')
 
-# Print a message indicating successful execution
 print("Feature engineering completed successfully.")
