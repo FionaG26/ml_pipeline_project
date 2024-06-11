@@ -1,6 +1,7 @@
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
+import joblib
 
 # Load the original data to extract the target variable
 data = pd.read_csv('../data/heart.csv')
@@ -35,4 +36,7 @@ grid_search.fit(X_train, y_train)
 # Best model
 best_model = grid_search.best_estimator_
 
-print("X_selected loaded successfully.")
+# Save the best model to a file
+joblib.dump(best_model, 'best_model.pkl')
+
+print("Best model saved successfully.")
