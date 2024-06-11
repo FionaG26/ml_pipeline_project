@@ -5,6 +5,8 @@ from sklearn.impute import SimpleImputer
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
+import joblib
+
 
 # Load data from CSV file
 data = pd.read_csv('../data/heart.csv')
@@ -39,6 +41,9 @@ preprocessor = ColumnTransformer(transformers=[
 
 # Preprocess the features
 X_preprocessed = preprocessor.fit_transform(X)
+
+# Save the preprocessor object
+joblib.dump(preprocessor, '../models/preprocessor.pkl')
 
 # Split data into training and test sets after preprocessing
 X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y, test_size=0.2, random_state=42)

@@ -1,34 +1,50 @@
 from sklearn.metrics import classification_report, accuracy_score
 import pandas as pd
 import joblib
-import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+import os
+
+# Load data from CSV file
+data = pd.read_csv('../data/heart.csv')
+
+# Split data into features and target
+X = data.drop('output', axis=1)
+y = data['output']
+
+# Ensure X and y have the same number of samples
+X = X.iloc[:len(y)]
+
+# Define preprocessing steps
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+preprocessor = ColumnTransformer(transformers=[
+    ('num', numerical_transformer, X.select_dtypes(include=['int64', 'float64']).columns),
+    ('cat', categorical_transformer, X.select_dtypes(include=['object']).columns)
+])
+
+# Preprocess the features
+X_preprocessed = preprocessor.fit_transform(X)
+
+# Split data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X_preprocessed, y, test_size=0.2, random_state=42)
 
 # Load the trained model from the saved file
 best_model = joblib.load('../models/best_model.pkl')
 
-# Load X_test from the saved file or from your data preprocessing
-X_test = pd.read_pickle('../models/X_preprocessed.pkl') 
-
-# Load y_test from the saved file or from your data preprocessing
-y_test = pd.read_pickle('../models/y_test.pkl')  
-
-# Convert X_test to DataFrame if it's a NumPy array
-if isinstance(X_test, np.ndarray):
-    X_test = pd.DataFrame(X_test)
-
 # Predictions
 y_pred = best_model.predict(X_test)
-
-# Print shapes for debugging
-print("Shape of y_test:", y_test.shape)
-print("Shape of y_pred:", y_pred.shape)
-
-# Print out some samples from X_test and y_test for inspection
-print("Samples from X_test:")
-print(X_test.head())
-
-print("Samples from y_test:")
-print(y_test.head())
 
 # Evaluation
 print(f'Accuracy: {accuracy_score(y_test, y_pred)}')

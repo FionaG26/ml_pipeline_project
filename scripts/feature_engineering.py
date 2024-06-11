@@ -15,7 +15,7 @@ y = data['output']
 selector = SelectKBest(score_func=f_classif, k='all')  # Adjust 'k' as needed
 X_selected = selector.fit_transform(X_preprocessed, y)
 
-# Save X_selected to a file
-pd.to_pickle(X_selected, '../models/X_selected.pkl')
+# Save X_selected and selector to files
+joblib.dump(X_selected, '../models/X_selected.pkl')
 
 print("Feature engineering completed successfully.")
