@@ -2,6 +2,11 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+import pandas as pd
+import os
+
+# Load data from CSV file
+data = pd.read_csv('../data/heart.csv')
 
 # Split data into features and target
 X = data.drop('output', axis=1)
@@ -23,11 +28,18 @@ categorical_transformer = Pipeline(steps=[
 ])
 
 # Combine transformations into a preprocessor
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('num', numerical_transformer, numerical_features),
-        ('cat', categorical_transformer, categorical_features)
-    ])
+preprocessor = ColumnTransformer(transformers=[
+    ('num', numerical_transformer, numerical_features),
+    ('cat', categorical_transformer, categorical_features)
+])
 
 # Preprocess the features
 X_preprocessed = preprocessor.fit_transform(X)
+
+# Ensure the 'data' directory exists
+os.makedirs('data', exist_ok=True)
+
+# Save preprocessed data to file
+pd.to_pickle(X_preprocessed, 'data/X_preprocessed.pkl')
+
+print("Data preprocessing completed.")
