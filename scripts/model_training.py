@@ -10,7 +10,7 @@ data = pd.read_csv('../data/heart.csv')
 y = data['output']
 
 # Load X_selected from the saved file
-X_selected = pd.read_pickle('../models/X_selected.pkl')
+X_selected = joblib.load('../models/X_selected.pkl')
 
 # Split data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(

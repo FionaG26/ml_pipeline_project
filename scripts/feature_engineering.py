@@ -3,7 +3,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 import joblib
 
 # Load preprocessed data from file
-X_preprocessed = pd.read_pickle('../models/X_preprocessed.pkl')
+X_preprocessed = joblib.load('../models/X_preprocessed.pkl')
 
 # Load the original data to extract the target variable
 data = pd.read_csv('../data/heart.csv')

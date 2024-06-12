@@ -7,6 +7,15 @@ import os
 from sklearn.model_selection import train_test_split
 import joblib
 
+def predict(input_data):
+    # Load preprocessor
+    preprocessor = joblib.load('../models/preprocessor.pkl')
+
+    # Preprocess input data
+    input_data_preprocessed = preprocessor.transform(input_data)
+
+    # Return preprocessed data
+    return input_data_preprocessed
 
 # Load data from CSV file
 data = pd.read_csv('../data/heart.csv')
